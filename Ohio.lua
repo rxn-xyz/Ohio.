@@ -151,7 +151,7 @@ Toggles["ATMFarm"]:OnChanged(function()
                         end
                     end)
                     until v:GetAttribute("state") == "destroyed" or not Toggles["ATMFarm"].Value
-                    task.wait(1.5)
+                    task.wait(2.5)
                     pcall(function()
                         for i,v in pairs(Workspace.Game.Entities.CashBundle:GetChildren()) do
                             if (LocalPlayer.Character.HumanoidRootPart.Position - v.PrimaryPart.Position).Magnitude <= 15 then
@@ -170,7 +170,7 @@ OldNameCall = hookmetamethod(game, "__namecall", function(Self, ...)
     local Arugments  =  {...}
     local Method     =  getnamecallmethod()
     if Method == "FireServer" and Self == Remotes["meleeHit"] then
-        if Toggles["OneShot"].Value and not Toggle["ATMFarm"].Value then
+        if Toggles["OneShot"].Value then
             if Arugments[2]["meleeType"] == "kick" then
                 Arugments[2]["meleeType"] = "megapunch"
             end
