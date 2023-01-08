@@ -40,6 +40,7 @@ local function CheckItem(Item)
     -- Check Items
     for i,v in pairs(Items) do
         for a,b in pairs(game:GetService("ReplicatedStorage").Models.Items:GetChildren()) do
+            Count = 0
             if TotalItems(b:GetChildren()) == #Items then
                 for c,d in pairs(b:GetChildren()) do
                     if d:IsA("MeshPart") then
