@@ -131,6 +131,11 @@ Workspace.Game.Props.ATM.ChildAdded:Connect(function(Item)
 end)
 -- ATM Farm | Toggle
 Toggles["ATMFarm"]:OnChanged(function()
+    if Toggles["ATMFarm"].Value then
+        if Toggles["OneShot"].Value then
+            Toggles["OneShot"]:SetValue(false)
+        end
+    end
     task.spawn(function()
         while Toggles["ATMFarm"].Value do task.wait()
             for i,v in pairs(Workspace.Game.Props.ATM:GetChildren()) do
@@ -151,7 +156,7 @@ Toggles["ATMFarm"]:OnChanged(function()
                         end
                     end)
                     until v:GetAttribute("state") == "destroyed" or not Toggles["ATMFarm"].Value
-                    task.wait(2.5)
+                    task.wait(2)
                     pcall(function()
                         for i,v in pairs(Workspace.Game.Entities.CashBundle:GetChildren()) do
                             if (LocalPlayer.Character.HumanoidRootPart.Position - v.PrimaryPart.Position).Magnitude <= 15 then
