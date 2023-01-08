@@ -96,12 +96,13 @@ end)
 Toggles["CashFarm"]:OnChanged(function()
 	task.spawn(function()
 		while Toggles["CashFarm"].Value do task.wait()
-			pcall(function()
-				for i,v in pairs(Workspace.Game.Entities.CashBundle:GetChildren()) do
-					v:FindFirstChildOfClass("ClickDetector").MaxActivationDistance = math.huge
+			for i,v in pairs(Workspace.Game.Entities.CashBundle:GetChildren()) do
+				if not Toggles["CashFarm"].Value then break end
+				if v.PrimaryPart then
+					LocalPlayer.Character.HumanoidRootPart.CFrame = v.PrimaryPart.CFrame
 					fireclickdetector(v:FindFirstChildOfClass("ClickDetector"))
 				end
-			end)
+			end
 		end
 	end)
 end)
