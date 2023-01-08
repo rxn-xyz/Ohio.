@@ -148,6 +148,7 @@ Toggles["ATMFarm"]:OnChanged(function()
                         end
                     end)
                     until v:GetAttribute("state") == "destroyed" or not Toggles["ATMFarm"].Value
+                    task.wait(0.5)
                     pcall(function()
                         for i,v in pairs(Workspace.Game.Entities.CashBundle:GetChildren()) do
                             if (LocalPlayer.Character.HumanoidRootPart.Position - v.PrimaryPart.Position).Magnitude <= 15 then
