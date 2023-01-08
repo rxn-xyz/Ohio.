@@ -96,13 +96,12 @@ end)
 Toggles["CashFarm"]:OnChanged(function()
 	task.spawn(function()
 		while Toggles["CashFarm"].Value do task.wait()
-			for i,v in pairs(Workspace.Game.Entities.CashBundle:GetChildren()) do
-				if not Toggles["CashFarm"].Value then break end
-				if v.PrimaryPart then
-					LocalPlayer.Character.HumanoidRootPart.CFrame = v.PrimaryPart.CFrame
+			pcall(function()
+				for i,v in pairs(Workspace.Game.Entities.CashBundle:GetChildren()) do
+					v:FindFirstChildOfClass("ClickDetector").MaxActivationDistance = math.huge
 					fireclickdetector(v:FindFirstChildOfClass("ClickDetector"))
 				end
-			end
+			end)
 		end
 	end)
 end)
@@ -130,20 +129,8 @@ Toggles["ATMFarm"]:OnChanged(function()
 		while Toggles["ATMFarm"].Value do task.wait()
 			if not Toggles["ATMFarm"].Value then break end
 			for i,v in pairs(Workspace.Game.Props.ATM:GetChildren()) do
+				if not Toggles["ATMFarm"].Value then break end
 				if v:GetAttribute("state") ~= "destroyed" then 
-					-- Collect Cash Before
-					task.spawn(function()
-						while v:GetAttribute("state") ~= "destroyed" do task.wait()
-							pcall(function()
-								for i,v in pairs(Workspace.Game.Entities.CashBundle:GetChildren()) do
-									if (LocalPlayer.Character.HumanoidRootPart.Position - v.PrimaryPart.Position).magnitude <= 15 then
-										fireclickdetector(v:FindFirstChildOfClass("ClickDetector"))
-									end
-								end
-							end)
-						end
-					end)
-					-- Hit
 					repeat task.wait()
 					pcall(function()
 						LocalPlayer.Character.HumanoidRootPart.CFrame = v.PrimaryPart.CFrame
@@ -154,14 +141,16 @@ Toggles["ATMFarm"]:OnChanged(function()
 							}
 							Remotes['meleeHit']:FireServer('prop', Hit)
 						end
+						for i,v in pairs(Workspace.Game.Entities.CashBundle:GetChildren()) do
+							v:FindFirstChildOfClass("ClickDetector").MaxActivationDistance = math.huge
+							fireclickdetector(v:FindFirstChildOfClass("ClickDetector"))
+						end
 					end)
 					until v:GetAttribute("state") == "destroyed" or not Toggles["ATMFarm"].Value
-					-- Collect Cash After
 					pcall(function()
 						for i,v in pairs(Workspace.Game.Entities.CashBundle:GetChildren()) do
-							if (LocalPlayer.Character.HumanoidRootPart.Position - v.PrimaryPart.Position).magnitude <= 15 then
-								fireclickdetector(v:FindFirstChildOfClass("ClickDetector"))
-							end
+							v:FindFirstChildOfClass("ClickDetector").MaxActivationDistance = math.huge
+							fireclickdetector(v:FindFirstChildOfClass("ClickDetector"))
 						end
 					end)
 				end
