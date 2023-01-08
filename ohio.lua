@@ -47,7 +47,7 @@ Farming:AddToggle("CashFarm", {
 Farming:AddToggle("ATMFarm", {
     Text = "ATM Farm",
     Default = false,
-    Tooltip = "Farms ATMs",
+    Tooltip = "Farms ATMs (Equip Fist)",
 })
 -- Library functions
 Library:OnUnload(function()
