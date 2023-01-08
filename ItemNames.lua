@@ -38,10 +38,10 @@ local function CheckItem(Item)
         end
     end
     -- Check Items
-    for i,v in pairs(Items) do
-        for a,b in pairs(game:GetService("ReplicatedStorage").Models.Items:GetChildren()) do
+    for a,b in pairs(game:GetService("ReplicatedStorage").Models.Items:GetChildren()) do
+        if TotalItems(b:GetChildren()) == #Items then
             Count = 0
-            if TotalItems(b:GetChildren()) == #Items then
+            for i,v in pairs(Items) do
                 for c,d in pairs(b:GetChildren()) do
                     if d:IsA("MeshPart") then
                         if d.MeshId == v["MeshId"] and d.TextureID == v["TextureID"] and d.Size == v["Size"] and d.Color == v["Color"] and d.Material == v["Material"] then
@@ -56,11 +56,11 @@ local function CheckItem(Item)
                     end
                 end
             end
-            if Count == #Items then
-                FoundItem = Potential
-                print(FoundItem, Count, #Items)
-                return FoundItem
-            end
+        end
+        if Count == #Items then
+            FoundItem = Potential
+            print(Count, #Items, FoundItem)
+            return FoundItem
         end
     end
 end
