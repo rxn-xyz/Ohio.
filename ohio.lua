@@ -145,8 +145,8 @@ Toggles["ATMFarm"]:OnChanged(function()
 					end)
 					-- Hit
 					repeat task.wait()
-					LocalPlayer.Character.HumanoidRootPart.CFrame = v.PrimaryPart.CFrame
 					pcall(function()
+						LocalPlayer.Character.HumanoidRootPart.CFrame = v.PrimaryPart.CFrame
 						if GetGUID(v) then
 							local Hit = {
 								["meleeType"] = "punch",
