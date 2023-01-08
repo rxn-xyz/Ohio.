@@ -70,7 +70,7 @@ for i,v in pairs(Workspace.Game.Entities.ItemPickup:GetChildren()) do
 end
 Workspace.Game.Entities.ItemPickup.ChildAdded:Connect(function(Child)
     task.wait(1)
-    if CheckItem(v) then
-        Child.Name = CheckItem(v)
+    if CheckItem(Child) then
+        Child.Name = CheckItem(Child)
     end
 end)
