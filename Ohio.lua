@@ -2,8 +2,8 @@
 -- Variables
 local Players           = game:GetService("Players")
 local LocalPlayer       = Players.LocalPlayer
+local Camera            = Workspace.CurrentCamera
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Camera = Workspace.CurrentCamera
 -- Remotes
 local Signals = require(ReplicatedStorage["devv-framework"].client.Helpers.remotes.Signal)
 local Remotes = debug.getupvalue(Signals.FireServer, 1)
