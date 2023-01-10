@@ -265,7 +265,7 @@ end)
 Toggles["BankFarm"]:OnChanged(function()
     task.spawn(function()
         while Toggles["BankFarm"].Value do task.wait()
-            if Workspace.BankRobbery.BankCash.Main.Attachment.ProximityPrompt.Enabled then
+            if #Workspace.BankRobbery.BankCash.Cash:GetChildren() > 0 then
                 LocalPlayer.Character.HumanoidRootPart.CFrame = Workspace.BankRobbery.BankCash.Pallet.CFrame
                 fireproximityprompt(Workspace.BankRobbery.BankCash.Main.Attachment.ProximityPrompt)
             end
