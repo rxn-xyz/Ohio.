@@ -8,7 +8,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Signals = require(ReplicatedStorage["devv-framework"].client.Helpers.remotes.Signal)
 local Remotes = debug.getupvalue(Signals.FireServer, 1)
 -- Item Names
-local ItemNames = loadstring(game:HttpGet("https://raw.githubusercontent.com/rxn-xyz/ohio./main/ItemNames.lua",true))()
+local ItemNames = loadstring(game:HttpGet("https://github.com/rxn-xyz/Ohio./blob/main/ItemNames.lua",true))()
 -- Repository
 local Repository = "https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/"
 -- Library | Themes | Saves
@@ -97,17 +97,23 @@ Combat:AddToggle("OneShot", {
 })
 -- Farming
 local Farming = Tabs["Main"]:AddRightGroupbox("Farming")
--- Cash Farm
-Farming:AddToggle("CashFarm", {
-    Text = "Cash Farm",
-    Default = false,
-    Tooltip = "Picks Up Cash",
-})
 -- ATM Farm
 Farming:AddToggle("ATMFarm", {
     Text = "ATM Farm",
     Default = false,
     Tooltip = "Farms ATMs (Equip Fist)",
+})
+-- Bank Farm
+Farming:AddToggle("BankFarm", {
+    Text = "Bank Farm",
+    Default = false,
+    Tooltip = "Farms The Bank",
+})
+-- Cash Farm
+Farming:AddToggle("CashFarm", {
+    Text = "Cash Farm",
+    Default = false,
+    Tooltip = "Picks Up Cash",
 })
 -- Item Farm
 Farming:AddToggle("ItemFarm", {
@@ -199,20 +205,6 @@ Toggles["WalkSpeed"]:OnChanged(function()
         end
     end)
 end)
--- Cash Farm | Toggle
-Toggles["CashFarm"]:OnChanged(function()
-    task.spawn(function()
-        while Toggles["CashFarm"].Value do task.wait()
-            for i,v in pairs(Workspace.Game.Entities.CashBundle:GetChildren()) do
-                if not Toggles["CashFarm"].Value then break end
-                if v.PrimaryPart then
-                    LocalPlayer.Character.HumanoidRootPart.CFrame = v.PrimaryPart.CFrame
-                    fireclickdetector(v:FindFirstChildOfClass("ClickDetector"))
-                end
-            end
-        end
-    end)
-end)
 -- ATM Farm | Setup
 local Load  = require(game:GetService("ReplicatedStorage")["devv-framework"].datum).load
 local State = Load("State")
@@ -245,30 +237,50 @@ Toggles["ATMFarm"]:OnChanged(function()
         while Toggles["ATMFarm"].Value do task.wait()
             for i,v in pairs(Workspace.Game.Props.ATM:GetChildren()) do
                 if not Toggles["ATMFarm"].Value then break end
-                if v:GetAttribute("state") ~= "destroyed" then 
+                local ATM = v.Name
+                if Workspace.Game.Props.ATM:FindFirstChild(ATM) and v:GetAttribute("state") ~= "destroyed" then 
                     repeat task.wait()
                     pcall(function()
                         LocalPlayer.Character.HumanoidRootPart.CFrame = v.PrimaryPart.CFrame
                         local Hit = {
                             ["meleeType"] = "punch",
-                            ["guid"] = GetGUID(v)
+                            ["guid"] = ATM
                         }
                         Remotes["meleeHit"]:FireServer("prop", Hit)
-                        for i,v in pairs(Workspace.Game.Entities.CashBundle:GetChildren()) do
-                            if (LocalPlayer.Character.HumanoidRootPart.Position - v.PrimaryPart.Position).Magnitude <= 15 then
-                                fireclickdetector(v:FindFirstChildOfClass("ClickDetector"))
+                        for i,v in pairs(Workspace.Game.Entities.CashBundle:GetDescendants()) do
+                            if v:IsA("TouchTransmitter") then
+                                if (LocalPlayer.Character.HumanoidRootPart.Position - v.Parent.Position).Magnitude <= 50 then
+                                    firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 0)
+                                end
                             end
                         end
                     end)
-                    until v:GetAttribute("state") == "destroyed" or not Toggles["ATMFarm"].Value
-                    task.wait(2)
-                    pcall(function()
-                        for i,v in pairs(Workspace.Game.Entities.CashBundle:GetChildren()) do
-                            if (LocalPlayer.Character.HumanoidRootPart.Position - v.PrimaryPart.Position).Magnitude <= 15 then
-                                fireclickdetector(v:FindFirstChildOfClass("ClickDetector"))
-                            end
-                        end
-                    end)
+                    until not Workspace.Game.Props.ATM:FindFirstChild(ATM) or not Toggles["ATMFarm"].Value
+                end
+            end
+        end
+    end)
+end)
+-- Bank Farm | Toggle
+Toggles["BankFarm"]:OnChanged(function()
+    task.spawn(function()
+        while Toggles["BankFarm"].Value do task.wait()
+            if Workspace.BankRobbery.BankCash.Main.Attachment.ProximityPrompt.Enabled then
+                LocalPlayer.Character.HumanoidRootPart.CFrame = Workspace.BankRobbery.BankCash.Pallet.CFrame
+                fireproximityprompt(Workspace.BankRobbery.BankCash.Main.Attachment.ProximityPrompt)
+            end
+        end
+    end)
+end)
+-- Cash Farm | Toggle
+Toggles["CashFarm"]:OnChanged(function()
+    task.spawn(function()
+        while Toggles["CashFarm"].Value do task.wait()
+            for i,v in pairs(Workspace.Game.Entities.CashBundle:GetDescendants()) do
+                if not Toggles["CashFarm"].Value then break end
+                if v:IsA("TouchTransmitter") then
+                    LocalPlayer.Character.HumanoidRootPart.CFrame = v.Parent.CFrame
+                    firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 0)
                 end
             end
         end
