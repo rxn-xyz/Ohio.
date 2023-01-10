@@ -8,7 +8,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Signals = require(ReplicatedStorage["devv-framework"].client.Helpers.remotes.Signal)
 local Remotes = debug.getupvalue(Signals.FireServer, 1)
 -- Item Names
-local ItemNames = loadstring(game:HttpGet("https://github.com/rxn-xyz/Ohio./blob/main/ItemNames.lua",true))()
+local ItemNames = loadstring(game:HttpGet("https://raw.githubusercontent.com/rxn-xyz/Ohio./main/ItemNames.lua",true))()
 -- Repository
 local Repository = "https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/"
 -- Library | Themes | Saves
