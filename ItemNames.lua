@@ -58,7 +58,7 @@ local function CheckItem(Item)
             end
         end
         if Count == #Items then
-            FoundItem = Potential; print(FoundItem)
+            FoundItem = Potential
             return FoundItem
         end
     end
@@ -66,12 +66,12 @@ end
 -- Rename
 for i,v in pairs(Workspace.Game.Entities.ItemPickup:GetChildren()) do
     if CheckItem(v) then
-        v.Name = CheckItem(v)
+        v.Name = CheckItem(v); print(v)
     end
 end
 Workspace.Game.Entities.ItemPickup.ChildAdded:Connect(function(Child)
     task.wait(1)
     if CheckItem(Child) then
-        Child.Name = CheckItem(Child)
+        Child.Name = CheckItem(Child); print(Child)
     end
 end)
