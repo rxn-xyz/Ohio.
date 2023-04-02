@@ -74,6 +74,6 @@ Workspace.Game.Entities.ItemPickup.ChildAdded:Connect(function(Child)
     task.wait(1)
     if CheckItem(Child) then
         Child.Name = CheckItem(Child)
-        print(v.Name)
+        print(Child)
     end
 end)
